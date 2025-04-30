@@ -3,82 +3,85 @@ public class Pieza {
     private Color color;
     private boolean movida;
 
+
     public Pieza(char c) {
         this.movida = false;
         switch (c){
-            case '♙':{
+            case 'P':{
                 this.tipoPieza = TipoPieza.PEON;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♟':{
+            case 'p':{
                 this.tipoPieza = TipoPieza.PEON;
                 this.color = Color.NEGRO;
                 break;
             }
 
-            case '♗':{
+            case 'A':{
                 this.tipoPieza = TipoPieza.ALFIL;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♝':{
+            case 'a':{
                 this.tipoPieza = TipoPieza.ALFIL;
                 this.color = Color.NEGRO;
                 break;
             }
 
-            case '♖':{
+            case 'T':{
                 this.tipoPieza = TipoPieza.TORRE;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♜':{
+            case 't':{
                 this.tipoPieza = TipoPieza.TORRE;
                 this.color = Color.NEGRO;
                 break;
             }
 
-            case '♘':{
+            case 'C':{
                 this.tipoPieza = TipoPieza.CABALLO;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♞':{
+            case 'c':{
                 this.tipoPieza = TipoPieza.CABALLO;
                 this.color = Color.NEGRO;
                 break;
 
             }
 
-            case '♕':{
+            case 'R':{
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♛':{
+            case 'r':{
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.NEGRO;
                 break;
             }
 
-            case '♔':{
+            case 'K':{
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case '♚':{
+            case 'k':{
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.NEGRO;
                 break;
             }
-
+            default:{
+                throw new IllegalArgumentException("Caracter de pieza no reconocido");
+            }
         }
     }
 
@@ -92,7 +95,7 @@ public class Pieza {
     }
 
     public boolean getMovida() {
-        return movida;
+        return this.movida;
     }
 
     public void marcarMovida() {
@@ -101,11 +104,53 @@ public class Pieza {
 
     @Override
     public boolean equals(Object obj) {
-
+        return this == obj;
     }
 
     @Override
     public String toString() {
 
+        String pieza = "";
+
+       if (this.getColor() == Color.NEGRO){
+           if (this.getTipoPieza() == TipoPieza.PEON){
+               pieza = "♟";
+           } else if (this.getTipoPieza() == TipoPieza.ALFIL){
+               pieza = "♝";
+           }
+           else if (this.getTipoPieza() == TipoPieza.CABALLO){
+               pieza = "♞";
+           }
+           else if (this.getTipoPieza() == TipoPieza.TORRE){
+               pieza = "♜";
+           }
+           else if (this.getTipoPieza() == TipoPieza.REINA){
+               pieza = "♛";
+           }
+           else if (this.getTipoPieza() == TipoPieza.REY){
+               pieza = "♚";
+           }
+       } else if (this.getColor() == Color.BLANCO) {
+
+           if (this.getTipoPieza() == TipoPieza.PEON){
+               pieza = "♙";
+           }
+           else if (this.getTipoPieza() == TipoPieza.ALFIL){
+               pieza = "♗";
+           }
+           else if (this.getTipoPieza() == TipoPieza.CABALLO){
+               pieza = "♘";
+           }
+           else if (this.getTipoPieza() == TipoPieza.TORRE){
+               pieza = "♖";
+           }
+           else if (this.getTipoPieza() == TipoPieza.REINA){
+               pieza = "♕";
+           }
+           else if (this.getTipoPieza() == TipoPieza.REY){
+               pieza = "♔";
+           }
+       }
+       return  pieza;
     }
 }
