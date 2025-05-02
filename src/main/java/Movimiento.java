@@ -92,7 +92,7 @@ public class Movimiento {
                 break;
             }
         }
-        return letra + destino + (8-filaDestino) + origen + (8 - filaOrigen);
+        return letra + destino + (8 - filaDestino) + origen + (8 - filaOrigen);
     }
 
     @Override

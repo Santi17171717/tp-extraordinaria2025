@@ -40,21 +40,85 @@ public class Tablero {
 
     boolean comprobarPiezasEnCamino(Movimiento movimiento) {
         boolean caminoLibre = true;
-        int i, j;
+        int j = movimiento.toString().charAt(4);
+        int i = Character.getNumericValue(movimiento.toString().charAt(3));
+        int k = movimiento.toString().charAt(2);
+        int l = Character.getNumericValue(movimiento.toString().charAt(1));
+
+        System.out.println(i);
 
         switch (movimiento.toString().charAt(0)){
             case 'P':{
 
             }case 'A':{
+                do {
+                    if (tablero[i][j] != null){
+                        caminoLibre = false;
+                    }
+                    if (i > k && j > l){ // arriba izq
+
+                        i--;
+                        j--;
+                    } else if (i > k && j < l) { // arriba der
+
+                        i--;
+                        j++;
+                    } else if (i < k && j > l) { // abajo izq
+
+                        i++;
+                        j--;
+                    }else { // abajo der
+                        i++;
+                        j++;
+                    }
+                }while (k != j);
+                return caminoLibre;
 
             }case 'C':{
-                return true;
+                if (tablero[l][k].contains()){
+                    caminoLibre = false;
+                }
+                return caminoLibre;
+
             }case 'T':{
+                if (i == l){ //vertical
+                    do {
+                        if (i > k){
+                            i--;
+                        }else{
+                            i++;
+                        }
+                    }while (k != i);
+
+                }else { // horizontal
+                    do {
+                        if (j > l){
+                            j--;
+                        }else{
+                            j--;
+                        }
+                    }while (l != j);
+                }
+                return caminoLibre;
 
             }case 'R':{
-                if (movimiento.toString().charAt(1) == movimiento.toString().charAt(3)){ //vertical
+                if (i == l){ //vertical
+                    do {
+                        if (i > k){
+                            i--;
+                        }else{
+                            i++;
+                        }
+                    }while (k != i);
 
-                }else if (movimiento.toString().charAt(2) == movimiento.toString().charAt(4)){ // horizontal
+                } else if (j == k){ // horizontal
+                    do {
+                        if (j > l){
+                            j--;
+                        }else{
+                            j--;
+                        }
+                    }while (l != j);
 
                 }else {//diagonal
 
@@ -62,19 +126,28 @@ public class Tablero {
                         if (tablero[i][j] != null){
                             caminoLibre = false;
                         }
-                        if (){ // arriba izq
+                        if (i > k && j > movimiento.toString().charAt(1)){ // arriba izq
 
-                        } else if () { // arriba der
+                            i--;
+                            j--;
+                        } else if (i > k && j < movimiento.toString().charAt(1)) { // arriba der
 
-                        } else if () { // abajo izq
+                            i--;
+                            j++;
+                        } else if (i < k && j > movimiento.toString().charAt(1)) { // abajo izq
 
+                            i++;
+                            j--;
                         }else { // abajo der
-
+                            i++;
+                            j++;
                         }
-                    }while ((movimiento.toString().charAt(2) != (movimiento.toString().charAt(4));
+                    }while (k != i);
+                    return caminoLibre;
                 }
             }case 'K':{
 
+                return caminoLibre;
             }
         }
         return caminoLibre;
