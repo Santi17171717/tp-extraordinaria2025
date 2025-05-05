@@ -183,15 +183,23 @@ public class Tablero {
     }
 
     public boolean reyMuerto(Color turno) {
-
+        boolean vivo = false;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (tablero[i][j].contains(turno)) {
+                    vivo = true;
+                }
+            }
+        }
+        return vivo;
     }
 
     public int getNumColumnas() {
-
+        return 8;
     }
 
     public int getNumFilas() {
-
+        return 8;
     }
 
     public void realizarMovimiento(Movimiento mov) {
