@@ -78,7 +78,7 @@ public class Tablero {
                 if (tablero[l][k].contains()){
                     caminoLibre = false;
                 }
-                return caminoLibre;
+                break;
 
             }case 'T':{
                 if (i == l){ //vertical
@@ -99,7 +99,7 @@ public class Tablero {
                         }
                     }while (l != j);
                 }
-                return caminoLibre;
+                break;
 
             }case 'R':{
                 if (i == l){ //vertical
@@ -143,11 +143,11 @@ public class Tablero {
                             j++;
                         }
                     }while (k != i);
-                    return caminoLibre;
+                    break;
                 }
             }case 'K':{
 
-                return caminoLibre;
+                break;
             }
         }
         return caminoLibre;
