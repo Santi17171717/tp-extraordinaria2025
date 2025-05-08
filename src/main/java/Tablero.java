@@ -43,11 +43,6 @@ public class Tablero{
 
 
         boolean caminoLibre = true;
-        int columnaOrigen = movimiento.toString().charAt(4);
-        int filaOrigen = Character.getNumericValue(movimiento.toString().charAt(3));
-        int columnaDestino = movimiento.toString().charAt(2);
-        int filaDestino = Character.getNumericValue(movimiento.toString().charAt(1));
-
         int f1 = Character.getNumericValue(movimiento.toString().charAt(3));
         int f2 = Character.getNumericValue(movimiento.toString().charAt(1));
         int c1 = movimiento.toString().charAt(4);
@@ -59,12 +54,12 @@ public class Tablero{
         int f = f1 + df;
         int c = c1 + dc;
 
-        while (f != f2 || c != c2) {
-            if (tablero[f][c] != null) return false;
+        while ((f != f2 || c != c2) && caminoLibre) {
+            if (tablero[f][c] != null) caminoLibre = false;
             f += df;
             c += dc;
         }
-        return true;
+        return caminoLibre;
     }
 
     public void agregarPieza(int fila, int columna, Pieza pieza) {

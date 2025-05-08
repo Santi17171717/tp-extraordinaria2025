@@ -56,10 +56,67 @@ public class Reglas {
     }
 
     public static boolean movimientoValidoPieza(Tablero t, Movimiento mov) {
-        Pieza pieza = mov.pieza;
+        Pieza pieza = new Pieza(mov.toString().charAt(0));
         if (pieza == null) return false;
-        return pieza.movimientoValido(t, mov);
+
+        int f1 = Character.getNumericValue(mov.toString().charAt(3));
+        int c1 = mov.toString().charAt(4);
+        int f2 = Character.getNumericValue(mov.toString().charAt(1));
+        int c2 = mov.toString().charAt(2);
+
+        Pieza destino = t.getPieza(f2, c2);
+        if (destino != null && destino.getColor() == pieza.getColor()) {
+            return false; // no se puede capturar una pieza propia
+        }
+
+        switch (pieza.getTipoPieza()) {
+            case PEON:
+                int avance = pieza.getColor() == Color.BLANCO ? -1 : 1;
+                int filaInicial = pieza.getColor() == Color.BLANCO ? 6 : 1;
+
+                // avance simple
+                if (c1 == c2 && f2 == f1 + avance && t.getPieza(f2, c2) == null) return true;
+
+                // doble avance inicial
+                if (c1 == c2 && f1 == filaInicial && f2 == f1 + 2 * avance &&
+                        t.getPieza(f1 + avance, c2) == null && t.getPieza(f2, c2) == null) return true;
+
+                // captura
+                if (Math.abs(c1 - c2) == 1 && f2 == f1 + avance && t.getPieza(f2, c2) != null &&
+                        t.getPieza(f2, c2).getColor() != pieza.getColor()) return true;
+
+                return false;
+
+            case TORRE:
+                if (f1 == f2 || c1 == c2) {
+                    return t.comprobarPiezasEnCamino(mov);
+                }
+                return false;
+
+            case ALFIL:
+                if (Math.abs(f1 - f2) == Math.abs(c1 - c2)) {
+                    return t.comprobarPiezasEnCamino(mov);
+                }
+                return false;
+
+            case REINA:
+                if (f1 == f2 || c1 == c2 || Math.abs(f1 - f2) == Math.abs(c1 - c2)) {
+                    return t.comprobarPiezasEnCamino(mov);
+                }
+                return false;
+
+            case CABALLO:
+                return (Math.abs(f1 - f2) == 2 && Math.abs(c1 - c2) == 1) ||
+                        (Math.abs(f1 - f2) == 1 && Math.abs(c1 - c2) == 2);
+
+            case REY:
+                return Math.abs(f1 - f2) <= 1 && Math.abs(c1 - c2) <= 1;
+
+            default:
+                return false;
+        }
     }
+
 
     public static boolean finalDePartida(Tablero tablero, Color turno) {
         return tablero.reyMuerto(turno);
