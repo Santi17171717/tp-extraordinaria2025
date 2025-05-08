@@ -1,5 +1,6 @@
-public class Tablero {
+public class Tablero{
     private Pieza[][] tablero;
+
     public Tablero(String notacionFEN) throws IllegalArgumentException {
         tablero[0][0] = new Pieza('t');
         tablero[0][1] = new Pieza('c');
@@ -39,156 +40,64 @@ public class Tablero {
     }
 
     boolean comprobarPiezasEnCamino(Movimiento movimiento) {
+
+
         boolean caminoLibre = true;
         int columnaOrigen = movimiento.toString().charAt(4);
         int filaOrigen = Character.getNumericValue(movimiento.toString().charAt(3));
         int columnaDestino = movimiento.toString().charAt(2);
         int filaDestino = Character.getNumericValue(movimiento.toString().charAt(1));
 
-        System.out.println(filaOrigen);
+        int f1 = Character.getNumericValue(movimiento.toString().charAt(3));
+        int f2 = Character.getNumericValue(movimiento.toString().charAt(1));
+        int c1 = movimiento.toString().charAt(4);
+        int c2 = movimiento.toString().charAt(2);
 
-        switch (movimiento.toString().charAt(0)){
-            case 'P':{
-                break;
-            }case 'A':{
-                do {
-                    if (tablero[filaOrigen][columnaOrigen] != null){
-                        caminoLibre = false;
-                    }
-                    if (filaOrigen > filaDestino && columnaOrigen > columnaDestino){ // arriba izq
+        int df = Integer.compare(f2, f1);
+        int dc = Integer.compare(c2, c1);
 
-                        filaOrigen--;
-                        columnaOrigen--;
-                    } else if (filaOrigen > filaDestino && columnaOrigen < columnaDestino) { // arriba der
+        int f = f1 + df;
+        int c = c1 + dc;
 
-                        filaOrigen--;
-                        columnaOrigen++;
-                    } else if (filaOrigen < filaDestino && columnaOrigen > columnaDestino) { // abajo izq
-
-                        filaOrigen++;
-                        columnaOrigen--;
-                    }else { // abajo der
-                        filaOrigen++;
-                        columnaOrigen++;
-                    }
-                }while (columnaDestino != columnaOrigen);
-                return caminoLibre;
-
-            }case 'C':{//Como el caballo salta casillas no hay que comprobar
-                break;
-            }case 'T':{
-                if (columnaOrigen == columnaDestino){ //vertical
-                    do {
-                        if (filaOrigen > filaDestino){
-                            filaOrigen--;
-                        }else{
-                            filaOrigen++;
-                        }
-                    }while (filaDestino != filaOrigen);
-
-                }else { // horizontal
-                    do {
-                        if (columnaOrigen > columnaDestino){
-                            columnaOrigen--;
-                        }else{
-                            columnaOrigen--;
-                        }
-                    }while (columnaDestino != columnaOrigen);
-                }
-                break;
-
-            }case 'R':{
-                if (columnaOrigen == columnaDestino){ //vertical
-                    do {
-                        if (filaOrigen > filaDestino){
-                            filaOrigen--;
-                        }else{
-                            filaOrigen++;
-                        }
-                    }while (filaDestino != filaOrigen);
-
-                } else if (filaOrigen == filaDestino){ // horizontal
-                    do {
-                        if (columnaOrigen > columnaDestino){
-                            columnaOrigen--;
-                        }else{
-                            columnaOrigen--;
-                        }
-                    }while (columnaDestino != columnaOrigen);
-
-                }else {//diagonal
-
-                    do {
-                        if (tablero[filaOrigen][columnaOrigen] != null){
-                            caminoLibre = false;
-                        }
-                        if (filaOrigen > filaDestino && columnaOrigen > columnaDestino){ // arriba izq
-
-                            filaOrigen--;
-                            columnaOrigen--;
-                        } else if (filaOrigen > filaDestino && columnaOrigen < columnaDestino) { // arriba der
-
-                            filaOrigen--;
-                            columnaOrigen++;
-                        } else if (filaOrigen < filaDestino && columnaOrigen > columnaDestino) { // abajo izq
-
-                            filaOrigen++;
-                            columnaOrigen--;
-                        }else { // abajo der
-                            filaOrigen++;
-                            columnaOrigen++;
-                        }
-                    }while (columnaDestino != columnaOrigen);
-                }
-                break;
-            }case 'K':{
-
-                break;
-            }
+        while (f != f2 || c != c2) {
+            if (tablero[f][c] != null) return false;
+            f += df;
+            c += dc;
         }
-        return caminoLibre;
+        return true;
     }
 
     public void agregarPieza(int fila, int columna, Pieza pieza) {
-        if (fila < 8  && fila >= 0 && columna < 8 && columna >= 0 && tablero[fila][columna] == null){
-            tablero[fila][columna] = pieza;
-        }
-        else if (fila >= 8 || columna >= 8 || columna < 0 || fila < 0){
-            throw new IllegalArgumentException("La casilla (" + fila + ", "+ columna + ") está fuera de rango con " +
-                    "las coordenadas correspondientes");
-        }else {
-            throw new IllegalArgumentException("La casilla (" + fila + ", "+ columna + ") está ocupada por la pieza "
-                    + pieza);
-        }
+        tablero[fila][columna] = pieza;
     }
 
     public Pieza getPieza(int fila, int columna) {
-        if (fila < 8  && fila >= 0 && columna < 8 && columna >= 0){
-            return tablero[fila][columna];
-        }
-        else {
-            throw new IllegalArgumentException("La casilla (" + fila + ", "+ columna + ") está fuera de rango con " +
-                    "las coordenadas correspondientes");
-        }
+        return tablero[fila][columna];
     }
 
     public String toString() {
-
+        StringBuilder sb = new StringBuilder();
+        for (int fila = 0; fila < 8; fila++) {
+            sb.append(8 - fila).append(" ");
+            for (int col = 0; col < 8; col++) {
+                sb.append("|").append(Reglas.simbolo(tablero[fila][col]));
+            }
+            sb.append("|\n");
+        }
+        sb.append("   a b c d e f g h\n");
+        return sb.toString();
     }
 
     public boolean reyMuerto(Color turno) {
-        boolean muerto = true;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (Color.NEGRO == turno && muerto) {
-                     muerto = !(tablero[i][j].toString().equals("♚"));
-                }
-                if (Color.BLANCO == turno && muerto) {
-                    muerto = !(tablero[i][j].toString().equals("♔"));
+        for (int fila = 0; fila < 8; fila++) {
+            for (int col = 0; col < 8; col++) {
+                Pieza p = tablero[fila][col];
+                if (p != null && p.getTipoPieza() == TipoPieza.REY && p.getColor() == turno) {
+                    return false;
                 }
             }
         }
-        return muerto;
+        return true;
     }
 
     public int getNumColumnas() {
@@ -209,4 +118,3 @@ public class Tablero {
         tablero[filaOrigen][columnaOrigen] = null;
     }
 }
-

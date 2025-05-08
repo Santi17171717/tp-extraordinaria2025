@@ -1,4 +1,6 @@
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Reglas {
@@ -16,34 +18,89 @@ public class Reglas {
     private static final String REY_NEGRO = "♚";
 
     public static String simbolo(Pieza pieza) {
-
+        if (pieza == null) return " ";
+        switch (pieza.getTipoPieza()) {
+            case PEON: return pieza.getColor() == Color.BLANCO ? PEON_BLANCO : PEON_NEGRO;
+            case ALFIL: return pieza.getColor() == Color.BLANCO ? ALFIL_BLANCO : ALFIL_NEGRO;
+            case TORRE: return pieza.getColor() == Color.BLANCO ? TORRE_BLANCA : TORRE_NEGRA;
+            case CABALLO: return pieza.getColor() == Color.BLANCO ? CABALLO_BLANCO : CABALLO_NEGRO;
+            case REINA: return pieza.getColor() == Color.BLANCO ? REINA_BLANCA : REINA_NEGRA;
+            case REY: return pieza.getColor() == Color.BLANCO ? REY_BLANCO : REY_NEGRO;
+            default: return " ";
+        }
     }
 
     public static int filaAIndice(String fila, PrintStream pantalla) {
-
+        try {
+            int f = Integer.parseInt(fila);
+            if (f >= 1 && f <= 8) {
+                return 8 - f;
+            } else {
+                pantalla.println("Fila fuera de rango (1-8)");
+                return -1;
+            }
+        } catch (NumberFormatException e) {
+            pantalla.println("Fila inválida");
+            return -1;
+        }
     }
 
     public static int columnaAIndice(String columna, PrintStream pantalla) {
-
+        columna = columna.toLowerCase();
+        if (columna.length() == 1 && columna.charAt(0) >= 'a' && columna.charAt(0) <= 'h') {
+            return columna.charAt(0) - 'a';
+        } else {
+            pantalla.println("Columna inválida (a-h)");
+            return -1;
+        }
     }
 
     public static boolean movimientoValidoPieza(Tablero t, Movimiento mov) {
-
+        Pieza pieza = mov.pieza;
+        if (pieza == null) return false;
+        return pieza.movimientoValido(t, mov);
     }
 
     public static boolean finalDePartida(Tablero tablero, Color turno) {
-
+        return tablero.reyMuerto(turno);
     }
 
     public static Movimiento solicitarMovimiento(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado) {
+        while (true) {
+            pantalla.print("Columna de origen (a-h): ");
+            int colO = columnaAIndice(teclado.nextLine(), pantalla);
+            pantalla.print("Fila de origen (1-8): ");
+            int filaO = filaAIndice(teclado.nextLine(), pantalla);
+            pantalla.print("Columna de destino (a-h): ");
+            int colD = columnaAIndice(teclado.nextLine(), pantalla);
+            pantalla.print("Fila de destino (1-8): ");
+            int filaD = filaAIndice(teclado.nextLine(), pantalla);
 
+            if (colO == -1 || filaO == -1 || colD == -1 || filaD == -1) {
+                pantalla.println("Entrada inválida. Intente nuevamente.");
+                continue;
+            }
+
+            Pieza pieza = tablero.getPieza(filaO, colO);
+            if (pieza == null || pieza.getColor() != turno) {
+                pantalla.println("No hay pieza propia en la posición origen.");
+                continue;
+            }
+
+            Movimiento mov = new Movimiento(pieza, filaO, colO, filaD, colD);
+            if (movimientoValidoPieza(tablero, mov)) {
+                return mov;
+            } else {
+                pantalla.println("Movimiento inválido según las reglas.");
+            }
+        }
     }
 
     public static String indiceAFila(int indice) {
-
+        return Integer.toString(8 - indice);
     }
 
     public static String indiceAColumna(int indice) {
-
+        return Character.toString((char) ('a' + indice));
     }
 }
