@@ -56,25 +56,25 @@ public class Pieza {
 
             }
 
-            case 'R':{
+            case 'D':{
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case 'r':{
+            case 'd':{
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.NEGRO;
                 break;
             }
 
-            case 'K':{
+            case 'R':{
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.BLANCO;
                 break;
             }
 
-            case 'k':{
+            case 'r':{
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.NEGRO;
                 break;
