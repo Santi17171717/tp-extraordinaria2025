@@ -59,10 +59,10 @@ public class Reglas {
         Pieza pieza = new Pieza(mov.toString().charAt(0));
         if (pieza == null) return false;
 
-        int f1 = Character.getNumericValue(mov.toString().charAt(3));
-        int c1 = mov.toString().charAt(4);
-        int f2 = Character.getNumericValue(mov.toString().charAt(1));
-        int c2 = mov.toString().charAt(2);
+        int f1 = mov.filaOrigen;
+        int c1 = mov.columnaOrigen;
+        int f2 = mov.filaDestino;
+        int c2 = mov.columnaDestino;
 
         Pieza destino = t.getPieza(f2, c2);
         if (destino != null && destino.getColor() == pieza.getColor()) {

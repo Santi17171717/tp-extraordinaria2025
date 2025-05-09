@@ -43,10 +43,10 @@ public class Tablero{
 
 
         boolean caminoLibre = true;
-        int f1 = Character.getNumericValue(movimiento.toString().charAt(3));
-        int f2 = Character.getNumericValue(movimiento.toString().charAt(1));
-        int c1 = movimiento.toString().charAt(4);
-        int c2 = movimiento.toString().charAt(2);
+        int f1 = movimiento.filaOrigen;
+        int c1 = movimiento.columnaOrigen;
+        int f2 = movimiento.filaDestino;
+        int c2 = movimiento.columnaDestino;
 
         int df = Integer.compare(f2, f1);
         int dc = Integer.compare(c2, c1);

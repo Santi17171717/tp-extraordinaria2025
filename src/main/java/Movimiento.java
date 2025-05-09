@@ -1,9 +1,9 @@
 public class Movimiento {
-    private Pieza pieza;
-    private int filaOrigen;
-    private int columnaOrigen;
-    private int filaDestino;
-    private int columnaDestino;
+    public Pieza pieza;
+    public int filaOrigen;
+    public int columnaOrigen;
+    public int filaDestino;
+    public int columnaDestino;
 
     public Movimiento(Pieza pieza, int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino) {
         this.pieza = pieza;
