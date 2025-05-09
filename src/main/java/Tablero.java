@@ -2,41 +2,20 @@ public class Tablero{
     private Pieza[][] tablero;
 
     public Tablero(String notacionFEN) throws IllegalArgumentException {
-        tablero[0][0] = new Pieza('t');
-        tablero[0][1] = new Pieza('c');
-        tablero[0][2] = new Pieza('a');
-        tablero[0][3] = new Pieza('r');
-        tablero[0][4] = new Pieza('k');
-        tablero[0][5] = new Pieza('a');
-        tablero[0][6] = new Pieza('c');
-        tablero[0][7] = new Pieza('t');
+        tablero = new Pieza[8][8];
+        String[] filas = notacionFEN.split("/");
+        if (filas.length != 8) throw new IllegalArgumentException();
 
-        tablero[1][0] = new Pieza('p');
-        tablero[1][1] = new Pieza('p');
-        tablero[1][2] = new Pieza('p');
-        tablero[1][3] = new Pieza('p');
-        tablero[1][4] = new Pieza('p');
-        tablero[1][5] = new Pieza('p');
-        tablero[1][6] = new Pieza('p');
-        tablero[1][7] = new Pieza('p');
-
-        tablero[6][0] = new Pieza('P');
-        tablero[6][1] = new Pieza('P');
-        tablero[6][2] = new Pieza('P');
-        tablero[6][3] = new Pieza('P');
-        tablero[6][4] = new Pieza('P');
-        tablero[6][5] = new Pieza('P');
-        tablero[6][6] = new Pieza('P');
-        tablero[6][7] = new Pieza('P');
-
-        tablero[7][0] = new Pieza('T');
-        tablero[7][1] = new Pieza('C');
-        tablero[7][2] = new Pieza('A');;
-        tablero[7][3] = new Pieza('R');
-        tablero[7][4] = new Pieza('K');
-        tablero[7][5] = new Pieza('A');
-        tablero[7][6] = new Pieza('C');
-        tablero[7][7] = new Pieza('T');
+        for (int i = 0; i < 8; i++) {
+            int col = 0;
+            for (char c : filas[i].toCharArray()) {
+                if (Character.isDigit(c)) {
+                    col += c - '0';
+                } else {
+                    tablero[i][col++] = new Pieza(c);
+                }
+            }
+        }
     }
 
     boolean comprobarPiezasEnCamino(Movimiento movimiento) {
@@ -63,10 +42,19 @@ public class Tablero{
     }
 
     public void agregarPieza(int fila, int columna, Pieza pieza) {
+        if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n", fila, columna));
+        }
+        if (tablero[fila][columna] != null) {
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está ocupada por la pieza %s%n", fila, columna, Reglas.simbolo(tablero[fila][columna])));
+        }
         tablero[fila][columna] = pieza;
     }
 
     public Pieza getPieza(int fila, int columna) {
+        if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n", fila, columna));
+        }
         return tablero[fila][columna];
     }
 
@@ -108,8 +96,11 @@ public class Tablero{
         int filaOrigen = Character.getNumericValue(mov.toString().charAt(3));
         int columnaDestino = mov.toString().charAt(2);
         int filaDestino = Character.getNumericValue(mov.toString().charAt(1));
-
-        tablero[filaDestino][columnaDestino] = tablero[filaOrigen][columnaOrigen];
+        if (mov.filaOrigen < 0 || mov.filaOrigen >= 8 || mov.columnaOrigen < 0 || mov.columnaOrigen >= 8 ||
+                mov.filaDestino < 0 || mov.filaDestino >= 8 || mov.columnaDestino < 0 || mov.columnaDestino >= 8) {
+            throw new ArrayIndexOutOfBoundsException("Movimiento fuera de los límites del tablero");
+        }
+        tablero[filaDestino][columnaDestino] = mov.pieza;
         tablero[filaOrigen][columnaOrigen] = null;
     }
 }
