@@ -60,27 +60,35 @@ public class Tablero{
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("  a b c d e f g h\n");
+        sb.append(" ┌─┬─┬─┬─┬─┬─┬─┬─┐\n");
         for (int fila = 0; fila < 8; fila++) {
-            sb.append(8 - fila).append(" ");
+            sb.append(8 - fila);
             for (int col = 0; col < 8; col++) {
                 sb.append("|").append(Reglas.simbolo(tablero[fila][col]));
             }
-            sb.append("|\n");
+            sb.append("|").append(8 - fila).append("\n");
+            if (fila < 7) {
+                sb.append(" ├─┼─┼─┼─┼─┼─┼─┼─┤\n");
+            }
         }
-        sb.append("   a b c d e f g h\n");
+        sb.append(" └─┴─┴─┴─┴─┴─┴─┴─┘\n");
+        sb.append("  a b c d e f g h\n");
         return sb.toString();
     }
 
+
     public boolean reyMuerto(Color turno) {
+        boolean muerto = true;
         for (int fila = 0; fila < 8; fila++) {
             for (int col = 0; col < 8; col++) {
                 Pieza p = tablero[fila][col];
-                if (p != null && p.getTipoPieza() == TipoPieza.REY && p.getColor() == turno) {
-                    return false;
+                if ((p != null && p.getTipoPieza() == TipoPieza.REY && p.getColor() == turno) && muerto) {
+                    muerto = false;
                 }
             }
         }
-        return true;
+        return muerto;
     }
 
     public int getNumColumnas() {
