@@ -1,5 +1,5 @@
 public class Tablero{
-    private Pieza[][] tablero;
+    private final Pieza[][] tablero;
 
     public Tablero(String notacionFEN) throws IllegalArgumentException {
         tablero = new Pieza[8][8];
