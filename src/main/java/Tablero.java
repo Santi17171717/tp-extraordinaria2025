@@ -65,9 +65,9 @@ public class Tablero{
         for (int fila = 0; fila < 8; fila++) {
             sb.append(8 - fila);
             for (int col = 0; col < 8; col++) {
-                sb.append("|").append(Reglas.simbolo(tablero[fila][col]));
+                sb.append("│").append(Reglas.simbolo(tablero[fila][col]));
             }
-            sb.append("|").append(8 - fila).append("\n");
+            sb.append("│").append(8 - fila).append("\n");
             if (fila < 7) {
                 sb.append(" ├─┼─┼─┼─┼─┼─┼─┼─┤\n");
             }

@@ -104,7 +104,10 @@ public class Pieza {
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Pieza otraPieza = (Pieza) obj;
+        return this.getColor() == otraPieza.getColor() && this.tipoPieza == otraPieza.tipoPieza;
     }
 
     @Override

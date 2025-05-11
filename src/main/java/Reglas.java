@@ -139,7 +139,7 @@ public class Reglas {
             int f = Integer.parseInt(fila);
             if (f >= 1 && f <= 8) return 8 - f;
         } catch (NumberFormatException ignored) {}
-        pantalla.println("Fila inválida (1-8)");
+        pantalla.println("La fila i no tiene el formato correcto (número del 1 al 8)");
         return -1;
     }
 
