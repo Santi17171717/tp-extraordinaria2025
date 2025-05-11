@@ -1,10 +1,22 @@
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * Clase principal que implementa el juego.
+ * Opciones: jugar una partida nueva o reproducir una partida anterior.
+ */
 public class Ajedrez {
 
+    /**
+     * Inicia la aplicación de ajedrez.
+     * @param args Argumentos de la línea de comandos:
+     * args[0]: Configuración inicial del tablero (FEN)
+     * args[1]: Color que comienza ("blanco" o "negro")
+     * args[2]: Nombre del archivo de registro (para guardar movimientos)
+     * O
+     * args[0]: Nombre del archivo con movimientos a reproducir
+     */
     public static void main(String[] args) {
-
         if (args.length == 3) {
             try {
                 Tablero tablero = new Tablero(args[0]);
@@ -29,6 +41,14 @@ public class Ajedrez {
         }
     }
 
+    /**
+     * Controla las acciones del juego.
+     * @param tablero Tablero de juego
+     * @param turno Color del jugador que tiene el turno
+     * @param pantalla Salida para mostrar información
+     * @param teclado Entrada para recibir movimientos
+     * @param registro Nombre del archivo donde se guardan los movimientos
+     */
     static void jugar(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado, String registro) {
         try (PrintWriter log = new PrintWriter(new OutputStreamWriter(new FileOutputStream(registro), "UTF-8"))) {
             while (!Reglas.finalDePartida(tablero, turno)) {
@@ -70,11 +90,7 @@ public class Ajedrez {
 
                 tablero.realizarMovimiento(mov);
                 log.write(linea + "\n");
-                if (turno == Color.BLANCO) {
-                    turno = Color.NEGRO;
-                } else {
-                    turno = Color.BLANCO;
-                }
+                turno = (turno == Color.BLANCO) ? Color.NEGRO : Color.BLANCO;
             }
 
             pantalla.println(tablero);
@@ -89,7 +105,12 @@ public class Ajedrez {
         }
     }
 
-
+    /**
+     * Reproduce una partida guardada en un archivo.
+     * @param fichero Nombre del archivo que contiene los movimientos
+     * @param pantalla Salida para mostrar el tablero
+     * @param teclado Entrada para la reproducción
+     */
     static void reproducir(String fichero, PrintStream pantalla, Scanner teclado) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fichero))) {
             Tablero tablero = new Tablero("tcadract/pppppppp/8/8/8/8/PPPPPPPP/TCADRACT");

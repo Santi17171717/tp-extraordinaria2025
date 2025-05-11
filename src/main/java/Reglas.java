@@ -1,7 +1,13 @@
 import java.io.PrintStream;
 import java.util.Scanner;
 
+/**
+ * Clase que contiene las reglas del ajedrez.
+ * Contiene métodos para validar movimientos, gestionar turnos
+ * y convertir entre letras, números del tablero y coordenadas del String.
+ */
 public class Reglas {
+    // Constantes para representación visual de piezas
     private static final String PEON_BLANCO = "♙";
     private static final String PEON_NEGRO = "♟";
     private static final String ALFIL_BLANCO = "♗";
@@ -15,6 +21,11 @@ public class Reglas {
     private static final String REY_BLANCO = "♔";
     private static final String REY_NEGRO = "♚";
 
+    /**
+     * Obtiene el símbolo Unicode correspondiente a una pieza.
+     * @param pieza La pieza a representar (o null si la casilla está vacía)
+     * @return String con el símbolo Unicode de la pieza
+     */
     public static String simbolo(Pieza pieza) {
         if (pieza == null) return " ";
         switch (pieza.getTipoPieza()) {
@@ -35,6 +46,12 @@ public class Reglas {
         }
     }
 
+    /**
+     * Valida si un movimiento es válido por las reglas.
+     * @param t Tablero actual
+     * @param mov Movimiento por validar
+     * @return Si el movimiento es válido
+     */
     public static boolean movimientoValidoPieza(Tablero t, Movimiento mov) {
         Pieza pieza = mov.pieza;
         if (pieza == null) return false;
@@ -91,10 +108,24 @@ public class Reglas {
         }
     }
 
+    /**
+     * Determina si la partida ha terminado.
+     * @param tablero Tablero actual
+     * @param turno Color del jugador actual
+     * @return Si el rey del color opuesto ha sido capturado
+     */
     public static boolean finalDePartida(Tablero tablero, Color turno) {
         return tablero.reyMuerto(turno);
     }
 
+    /**
+     * Solicita y valida un movimiento.
+     * @param tablero Tablero actual
+     * @param turno Color del jugador actual
+     * @param pantalla Salida para mensajes
+     * @param teclado Lee movimientos
+     * @return Movimiento introducido por el jugador
+     */
     public static Movimiento solicitarMovimiento(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado) {
         while (true) {
             pantalla.print("Introduce movimiento (ej. e2e4): ");
@@ -119,7 +150,6 @@ public class Reglas {
                 continue;
             }
 
-
             Pieza pieza = tablero.getPieza(filaO, colO);
             if (pieza == null || pieza.getColor() != turno) {
                 pantalla.println("No hay una pieza del color correcto en la posición de origen.");
@@ -136,6 +166,12 @@ public class Reglas {
         }
     }
 
+    /**
+     * Convierte una fila en notación algebraica (1-8) a índice de matriz (0-7).
+     * @param fila Fila como string en número
+     * @param pantalla Muestra mensajes de error
+     * @return Índice de fila o -1 si es inválido
+     */
     public static int filaAIndice(String fila, PrintStream pantalla) {
         try {
             int i = Integer.parseInt(fila);
@@ -151,6 +187,12 @@ public class Reglas {
         }
     }
 
+    /**
+     * Convierte una columna en letra (a-h) a índice de matriz (0-7).
+     * @param columna Columna como string ("a"-"h")
+     * @param pantalla Muestra mensajes de error
+     * @return Índice de columna o -1 si es inválido
+     */
     public static int columnaAIndice(String columna, PrintStream pantalla) {
         columna = columna.toLowerCase();
         if (columna.length() != 1) {
@@ -171,6 +213,12 @@ public class Reglas {
         return c - 'a';
     }
 
+    /**
+     * Convierte un índice de fila (0-7) a numeros en un tablero (1-8).
+     * @param indice Índice de fila (0-7)
+     * @return Fila como string en número
+     * @throws IllegalArgumentException Si el índice está fuera de rango
+     */
     public static String indiceAFila(int indice) {
         if (indice < 0 || indice > 7) {
             throw new IllegalArgumentException("Índice de fila fuera de rango");
@@ -178,11 +226,16 @@ public class Reglas {
         return Integer.toString(8 - indice);
     }
 
+    /**
+     * Convierte un índice de columna (0-7) a letra (a-h).
+     * @param indice Índice de columna (0-7)
+     * @return Columna como string en letra
+     * @throws IllegalArgumentException Si el índice está fuera de rango
+     */
     public static String indiceAColumna(int indice) {
         if (indice < 0 || indice > 7) {
             throw new IllegalArgumentException("Índice de columna fuera de rango");
         }
         return Character.toString((char) ('a' + indice));
     }
-
 }

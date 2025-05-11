@@ -1,108 +1,111 @@
+/**
+ * Representa una pieza de ajedrez con su tipo, color y si ha sido movida.
+ * Crea piezas a partir de caracteres FEN.
+ * Verifica igualdad entre piezas y obtiene su representación visual.
+ */
 public class Pieza {
+    /** Tipo de pieza  */
     private final TipoPieza tipoPieza;
+    /** Color de la pieza */
     private final Color color;
+    /** Indica si la pieza ya ha sido movida  */
     private boolean movida;
 
-
+    /**
+     * Construye una pieza a partir de su representación FEN.
+     * @param c Carácter FEN que representa la pieza (ej. 'P' para peón blanco, 'p' para peón negro)
+     * @throws IllegalArgumentException Si el carácter no corresponde a ninguna pieza válida
+     */
     public Pieza(char c) {
         this.movida = false;
-        switch (c){
-            case 'P':{
+        switch (c) {
+            case 'P':
                 this.tipoPieza = TipoPieza.PEON;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 'p':{
+            case 'p':
                 this.tipoPieza = TipoPieza.PEON;
                 this.color = Color.NEGRO;
                 break;
-            }
-
-            case 'A':{
+            case 'A':
                 this.tipoPieza = TipoPieza.ALFIL;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 'a':{
+            case 'a':
                 this.tipoPieza = TipoPieza.ALFIL;
                 this.color = Color.NEGRO;
                 break;
-            }
-
-            case 'T':{
+            case 'T':
                 this.tipoPieza = TipoPieza.TORRE;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 't':{
+            case 't':
                 this.tipoPieza = TipoPieza.TORRE;
                 this.color = Color.NEGRO;
                 break;
-            }
-
-            case 'C':{
+            case 'C':
                 this.tipoPieza = TipoPieza.CABALLO;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 'c':{
+            case 'c':
                 this.tipoPieza = TipoPieza.CABALLO;
                 this.color = Color.NEGRO;
                 break;
-
-            }
-
-            case 'D':{
+            case 'D':
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 'd':{
+            case 'd':
                 this.tipoPieza = TipoPieza.REINA;
                 this.color = Color.NEGRO;
                 break;
-            }
-
-            case 'R':{
+            case 'R':
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.BLANCO;
                 break;
-            }
-
-            case 'r':{
+            case 'r':
                 this.tipoPieza = TipoPieza.REY;
                 this.color = Color.NEGRO;
                 break;
-            }
-            default:{
+            default:
                 throw new IllegalArgumentException("Caracter de pieza no reconocido");
-            }
         }
     }
 
-
+    /**
+     * @return TipoPieza que representa el tipo de esta pieza
+     */
     public TipoPieza getTipoPieza() {
         return tipoPieza;
     }
 
+    /**
+     * @return Color de la pieza
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Indica si la pieza ya ha sido movida.
+     * @return Si la pieza ha sido movida, false en caso contrario
+     */
     public boolean getMovida() {
         return this.movida;
     }
 
+    /**
+     * Marca la pieza como movida.
+     */
     public void marcarMovida() {
         this.movida = true;
     }
 
-    @Override
+    /**
+     * Compara esta pieza con un objeto recibidod.
+     * @param obj Objeto a comparar
+     * @return si son piezas iguales
+     */
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -110,50 +113,30 @@ public class Pieza {
         return this.getColor() == otraPieza.getColor() && this.tipoPieza == otraPieza.tipoPieza;
     }
 
-    @Override
+    /**
+     * Devuelve la representación de la pieza como figura.
+     * @return String con la figura correspondiente a la pieza
+     */
     public String toString() {
-
-        String pieza = "";
-
-       if (this.getColor() == Color.NEGRO){
-           if (this.getTipoPieza() == TipoPieza.PEON){
-               pieza = "♟";
-           } else if (this.getTipoPieza() == TipoPieza.ALFIL){
-               pieza = "♝";
-           }
-           else if (this.getTipoPieza() == TipoPieza.CABALLO){
-               pieza = "♞";
-           }
-           else if (this.getTipoPieza() == TipoPieza.TORRE){
-               pieza = "♜";
-           }
-           else if (this.getTipoPieza() == TipoPieza.REINA){
-               pieza = "♛";
-           }
-           else if (this.getTipoPieza() == TipoPieza.REY){
-               pieza = "♚";
-           }
-       } else if (this.getColor() == Color.BLANCO) {
-
-           if (this.getTipoPieza() == TipoPieza.PEON){
-               pieza = "♙";
-           }
-           else if (this.getTipoPieza() == TipoPieza.ALFIL){
-               pieza = "♗";
-           }
-           else if (this.getTipoPieza() == TipoPieza.CABALLO){
-               pieza = "♘";
-           }
-           else if (this.getTipoPieza() == TipoPieza.TORRE){
-               pieza = "♖";
-           }
-           else if (this.getTipoPieza() == TipoPieza.REINA){
-               pieza = "♕";
-           }
-           else if (this.getTipoPieza() == TipoPieza.REY){
-               pieza = "♔";
-           }
-       }
-       return  pieza;
+        if (this.getColor() == Color.NEGRO) {
+            switch (this.getTipoPieza()) {
+                case PEON:    return "♟";
+                case ALFIL:   return "♝";
+                case CABALLO: return "♞";
+                case TORRE:   return "♜";
+                case REINA:   return "♛";
+                case REY:     return "♚";
+            }
+        } else if (this.getColor() == Color.BLANCO) {
+            switch (this.getTipoPieza()) {
+                case PEON:    return "♙";
+                case ALFIL:   return "♗";
+                case CABALLO: return "♘";
+                case TORRE:   return "♖";
+                case REINA:   return "♕";
+                case REY:     return "♔";
+            }
+        }
+        return "";
     }
 }
