@@ -7,7 +7,6 @@ import java.util.Scanner;
  * y convertir entre letras, números del tablero y coordenadas del String.
  */
 public class Reglas {
-    // Constantes para representación visual de piezas
     private static final String PEON_BLANCO = "♙";
     private static final String PEON_NEGRO = "♟";
     private static final String ALFIL_BLANCO = "♗";
@@ -73,14 +72,16 @@ public class Reglas {
                     if (colO == colD && t.getPieza(filaD, colD) == null) {
                         if (dFila == -1) return true;
                         if (filaO == 6 && dFila == -2 && t.getPieza(filaO - 1, colO) == null) return true;
-                    } else if (Math.abs(dCol) == 1 && dFila == -1 && destino != null && destino.getColor() == Color.NEGRO) {
+                    } else if (Math.abs(dCol) == 1 && dFila == -1 && destino != null &&
+                            destino.getColor() == Color.NEGRO) {
                         return true;
                     }
                 } else {
                     if (colO == colD && t.getPieza(filaD, colD) == null) {
                         if (dFila == 1) return true;
                         if (filaO == 1 && dFila == 2 && t.getPieza(filaO + 1, colO) == null) return true;
-                    } else if (Math.abs(dCol) == 1 && dFila == 1 && destino != null && destino.getColor() == Color.BLANCO) {
+                    } else if (Math.abs(dCol) == 1 && dFila == 1 && destino != null &&
+                            destino.getColor() == Color.BLANCO) {
                         return true;
                     }
                 }

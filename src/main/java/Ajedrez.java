@@ -50,7 +50,8 @@ public class Ajedrez {
      * @param registro Nombre del archivo donde se guardan los movimientos
      */
     static void jugar(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado, String registro) {
-        try (PrintWriter log = new PrintWriter(new OutputStreamWriter(new FileOutputStream(registro), "UTF-8"))) {
+        try (PrintWriter log = new PrintWriter(new OutputStreamWriter(new FileOutputStream(registro),
+                "UTF-8"))) {
             while (!Reglas.finalDePartida(tablero, turno)) {
                 pantalla.println(tablero);
                 pantalla.print("Introduce movimiento (ej. e2e4): ");

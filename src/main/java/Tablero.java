@@ -22,7 +22,7 @@ public class Tablero {
             for (int j = 0; j < fila.length(); j++) {
                 char c = fila.charAt(j);
                 if (Character.isDigit(c)) {
-                    col += c - '0'; // Avanza el número de casillas vacías indicadas
+                    col += c - '0';
                 } else {
                     tablero[i][col++] = new Pieza(c);
                 }
@@ -42,8 +42,8 @@ public class Tablero {
         int f2 = movimiento.filaDestino;
         int c2 = movimiento.columnaDestino;
 
-        int df = Integer.compare(f2, f1); // Dirección fila (-1, 0, 1)
-        int dc = Integer.compare(c2, c1); // Dirección columna (-1, 0, 1)
+        int df = Integer.compare(f2, f1);
+        int dc = Integer.compare(c2, c1);
 
         int f = f1 + df;
         int c = c1 + dc;
@@ -65,10 +65,12 @@ public class Tablero {
      */
     public void agregarPieza(int fila, int columna, Pieza pieza) {
         if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
-            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n", fila, columna));
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n",
+                    fila, columna));
         }
         if (tablero[fila][columna] != null) {
-            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está ocupada por la pieza %s%n", fila, columna, Reglas.simbolo(tablero[fila][columna])));
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está ocupada por la pieza %s%n",
+                    fila, columna, Reglas.simbolo(tablero[fila][columna])));
         }
         tablero[fila][columna] = pieza;
     }
@@ -82,7 +84,8 @@ public class Tablero {
      */
     public Pieza getPieza(int fila, int columna) {
         if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
-            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n", fila, columna));
+            throw new IllegalArgumentException(String.format("La casilla (%d, %d) está fuera de rango%n",
+                    fila, columna));
         }
         return tablero[fila][columna];
     }
