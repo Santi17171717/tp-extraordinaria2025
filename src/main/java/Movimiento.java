@@ -97,6 +97,16 @@ public class Movimiento {
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj;
+            if (this == obj) return true;
+            if (!(obj instanceof Movimiento)) return false;
+            Movimiento otro = (Movimiento) obj;
+            return filaOrigen == otro.filaOrigen &&
+                    columnaOrigen == otro.columnaOrigen &&
+                    filaDestino == otro.filaDestino &&
+                    columnaDestino == otro.columnaDestino &&
+                    pieza != null && otro.pieza != null &&
+                    pieza.getTipoPieza() == otro.pieza.getTipoPieza() &&
+                    pieza.getColor() == otro.pieza.getColor();
+
     }
 }

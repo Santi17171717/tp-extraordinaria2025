@@ -100,15 +100,11 @@ public class Tablero{
     }
 
     public void realizarMovimiento(Movimiento mov) {
-        int columnaOrigen = mov.toString().charAt(4);
-        int filaOrigen = Character.getNumericValue(mov.toString().charAt(3));
-        int columnaDestino = mov.toString().charAt(2);
-        int filaDestino = Character.getNumericValue(mov.toString().charAt(1));
         if (mov.filaOrigen < 0 || mov.filaOrigen >= 8 || mov.columnaOrigen < 0 || mov.columnaOrigen >= 8 ||
                 mov.filaDestino < 0 || mov.filaDestino >= 8 || mov.columnaDestino < 0 || mov.columnaDestino >= 8) {
             throw new ArrayIndexOutOfBoundsException("Movimiento fuera de los límites del tablero");
         }
-        tablero[filaDestino][columnaDestino] = mov.pieza;
-        tablero[filaOrigen][columnaOrigen] = null;
+        tablero[mov.filaDestino][mov.columnaDestino] = mov.pieza;
+        tablero[mov.filaOrigen][mov.columnaOrigen] = null;
     }
 }
