@@ -29,26 +29,65 @@ public class Ajedrez {
     }
 
     static void jugar(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado, String registro) {
-        try (PrintWriter log = new PrintWriter(new FileWriter(registro))) {
+        try (PrintWriter log = new PrintWriter(new OutputStreamWriter(new FileOutputStream(registro), "UTF-8"))) {
             while (!Reglas.finalDePartida(tablero, turno)) {
                 pantalla.println(tablero);
-                Movimiento mov = Reglas.solicitarMovimiento(tablero, turno, pantalla, teclado);
+                pantalla.print("Introduce movimiento (ej. e2e4): ");
+                String linea = teclado.nextLine();
+
+                if (linea.length() != 4) {
+                    pantalla.println("Formato de movimiento incorrecto. Debe ser de 4 caracteres (ej. e2e4).");
+                    continue;
+                }
+
+                String colOText = linea.substring(0, 1);
+                String filaOText = linea.substring(1, 2);
+                String colDText = linea.substring(2, 3);
+                String filaDText = linea.substring(3, 4);
+
+                int colO = Reglas.columnaAIndice(colOText, pantalla);
+                int filaO = Reglas.filaAIndice(filaOText, pantalla);
+                int colD = Reglas.columnaAIndice(colDText, pantalla);
+                int filaD = Reglas.filaAIndice(filaDText, pantalla);
+
+                if (colO == -1 || filaO == -1 || colD == -1 || filaD == -1) {
+                    pantalla.println("Movimiento fuera de los límites del tablero.");
+                    continue;
+                }
+
+                Pieza pieza = tablero.getPieza(filaO, colO);
+                if (pieza == null || pieza.getColor() != turno) {
+                    pantalla.println("No hay una pieza del color correcto en la posición de origen.");
+                    continue;
+                }
+
+                Movimiento mov = new Movimiento(pieza, filaO, colO, filaD, colD);
+                if (!Reglas.movimientoValidoPieza(tablero, mov)) {
+                    pantalla.println("Movimiento no válido.");
+                    continue;
+                }
+
                 tablero.realizarMovimiento(mov);
-                log.println(mov);
+                log.write(linea + "\n");
                 turno = (turno == Color.BLANCO) ? Color.NEGRO : Color.BLANCO;
             }
+
             pantalla.println(tablero);
-            String ganador = (turno == Color.BLANCO) ? "negras" : "blancas";
-            pantalla.println("Fin de la partida. Ganan las " + ganador);
+            if (tablero.reyMuerto(Color.BLANCO)) {
+                pantalla.println("Fin de la partida. Ganan las negras");
+            } else if (tablero.reyMuerto(Color.NEGRO)) {
+                pantalla.println("Fin de la partida. Ganan las blancas");
+            }
         } catch (IOException e) {
             pantalla.println("Error al abrir el fichero de registro");
             throw new RuntimeException(e);
         }
     }
 
+
     static void reproducir(String fichero, PrintStream pantalla, Scanner teclado) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fichero))) {
-            Tablero tablero = new Tablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+            Tablero tablero = new Tablero("tcadract/pppppppp/8/8/8/8/PPPPPPPP/TCADRACT");
             pantalla.println(tablero);
             String line;
             while ((line = reader.readLine()) != null) {

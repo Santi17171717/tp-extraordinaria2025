@@ -108,3 +108,4 @@ public class Tablero{
         tablero[mov.filaOrigen][mov.columnaOrigen] = null;
     }
 }
+
