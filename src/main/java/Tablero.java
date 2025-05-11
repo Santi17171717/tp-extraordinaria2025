@@ -8,7 +8,9 @@ public class Tablero{
 
         for (int i = 0; i < 8; i++) {
             int col = 0;
-            for (char c : filas[i].toCharArray()) {
+            String fila = filas[i];
+            for (int j = 0; j < fila.length(); j++) {
+                char c = fila.charAt(j);
                 if (Character.isDigit(c)) {
                     col += c - '0';
                 } else {

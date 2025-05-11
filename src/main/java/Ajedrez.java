@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Ajedrez {
 
     public static void main(String[] args) {
+
         if (args.length == 3) {
             try {
                 Tablero tablero = new Tablero(args[0]);
@@ -69,7 +70,11 @@ public class Ajedrez {
 
                 tablero.realizarMovimiento(mov);
                 log.write(linea + "\n");
-                turno = (turno == Color.BLANCO) ? Color.NEGRO : Color.BLANCO;
+                if (turno == Color.BLANCO) {
+                    turno = Color.NEGRO;
+                } else {
+                    turno = Color.BLANCO;
+                }
             }
 
             pantalla.println(tablero);

@@ -140,7 +140,7 @@ public class Reglas {
         try {
             int i = Integer.parseInt(fila);
             if (i >= 1 && i <= 8) {
-                return 8 - i; // Conversión correcta (ej: fila "1" → índice 7)
+                return 8 - i;
             } else {
                 pantalla.println("La fila " + i + " está fuera de rango (número del 1 al 8)");
                 return -1;
