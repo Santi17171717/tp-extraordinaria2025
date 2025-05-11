@@ -115,8 +115,10 @@ public class Reglas {
             int filaD = filaAIndice(filaDText, pantalla);
 
             if (colO == -1 || filaO == -1 || colD == -1 || filaD == -1) {
+                pantalla.println("Movimiento fuera de los límites del tablero.");
                 continue;
             }
+
 
             Pieza pieza = tablero.getPieza(filaO, colO);
             if (pieza == null || pieza.getColor() != turno) {
@@ -170,10 +172,17 @@ public class Reglas {
     }
 
     public static String indiceAFila(int indice) {
+        if (indice < 0 || indice > 7) {
+            throw new IllegalArgumentException("Índice de fila fuera de rango");
+        }
         return Integer.toString(8 - indice);
     }
 
     public static String indiceAColumna(int indice) {
+        if (indice < 0 || indice > 7) {
+            throw new IllegalArgumentException("Índice de columna fuera de rango");
+        }
         return Character.toString((char) ('a' + indice));
     }
+
 }

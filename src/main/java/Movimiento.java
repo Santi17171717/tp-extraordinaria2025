@@ -20,22 +20,50 @@ public class Movimiento {
 
         switch (pieza.getTipoPieza()){
             case PEON:{
-                letra = "P";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "P";
+                }else {
+                    letra = "p";
+                }
+
                 break;
             }case ALFIL:{
-                letra = "A";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "A";
+                }else {
+                    letra = "a";
+                }
                 break;
             }case CABALLO:{
-                letra = "C";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "C";
+                }else {
+                    letra = "c";
+                }
+
                 break;
             }case TORRE:{
-                letra = "T";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "T";
+                }else {
+                    letra = "t";
+                }
+
                 break;
             }case REINA:{
-                letra = "R";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "D";
+                }else {
+                    letra = "d";
+                }
                 break;
             }case REY:{
-                letra = "K";
+                if (pieza.getColor() == Color.BLANCO){
+                    letra = "R";
+                }else {
+                    letra = "r";
+                }
+
                 break;
             }
         }
@@ -92,7 +120,7 @@ public class Movimiento {
                 break;
             }
         }
-        return letra + destino + (8 - filaDestino) + origen + (8 - filaOrigen);
+        return letra + origen + (8 - filaOrigen) + destino + (8 - filaDestino);
     }
 
     @Override
