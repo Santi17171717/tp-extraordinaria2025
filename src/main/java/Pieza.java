@@ -1,6 +1,6 @@
 public class Pieza {
-    private TipoPieza tipoPieza;
-    private Color color;
+    private final TipoPieza tipoPieza;
+    private final Color color;
     private boolean movida;
 
 

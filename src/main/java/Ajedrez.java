@@ -31,13 +31,13 @@ public class Ajedrez {
     static void jugar(Tablero tablero, Color turno, PrintStream pantalla, Scanner teclado, String registro) {
         try (PrintWriter log = new PrintWriter(new FileWriter(registro))) {
             while (!Reglas.finalDePartida(tablero, turno)) {
-                pantalla.println(tablero.toString());
+                pantalla.println(tablero);
                 Movimiento mov = Reglas.solicitarMovimiento(tablero, turno, pantalla, teclado);
                 tablero.realizarMovimiento(mov);
-                log.println(mov.toString());
+                log.println(mov);
                 turno = (turno == Color.BLANCO) ? Color.NEGRO : Color.BLANCO;
             }
-            pantalla.println(tablero.toString());
+            pantalla.println(tablero);
             String ganador = (turno == Color.BLANCO) ? "negras" : "blancas";
             pantalla.println("Fin de la partida. Ganan las " + ganador);
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class Ajedrez {
     static void reproducir(String fichero, PrintStream pantalla, Scanner teclado) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fichero))) {
             Tablero tablero = new Tablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-            pantalla.println(tablero.toString());
+            pantalla.println(tablero);
             String line;
             while ((line = reader.readLine()) != null) {
                 String colO = line.substring(0,1);
@@ -63,7 +63,7 @@ public class Ajedrez {
                 Pieza pieza = tablero.getPieza(fO, cO);
                 Movimiento mov = new Movimiento(pieza, fO, cO, fD, cD);
                 tablero.realizarMovimiento(mov);
-                pantalla.println(tablero.toString());
+                pantalla.println(tablero);
                 pantalla.print("Pulsa INTRO para continuar");
                 if (teclado.hasNextLine()) {
                     teclado.nextLine();
