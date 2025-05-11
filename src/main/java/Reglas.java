@@ -136,21 +136,37 @@ public class Reglas {
 
     public static int filaAIndice(String fila, PrintStream pantalla) {
         try {
-            int f = Integer.parseInt(fila);
-            if (f >= 1 && f <= 8) return 8 - f;
-        } catch (NumberFormatException ignored) {}
-        pantalla.println("La fila i no tiene el formato correcto (número del 1 al 8)");
-        return -1;
+            int i = Integer.parseInt(fila);
+            if (i >= 1 && i <= 8) {
+                return 8 - i; // Conversión correcta (ej: fila "1" → índice 7)
+            } else {
+                pantalla.println("La fila " + i + " está fuera de rango (número del 1 al 8)");
+                return -1;
+            }
+        } catch (NumberFormatException e) {
+            pantalla.println("La fila " + fila + " no tiene el formato correcto (número del 1 al 8)");
+            return -1;
+        }
     }
 
     public static int columnaAIndice(String columna, PrintStream pantalla) {
         columna = columna.toLowerCase();
-        if (columna.length() == 1 && columna.charAt(0) >= 'a' && columna.charAt(0) <= 'h') {
-            return columna.charAt(0) - 'a';
-        } else {
-            pantalla.println("Columna inválida (a-h)");
+        if (columna.length() != 1) {
+            pantalla.println("La columna " + columna + " no tiene el formato correcto (letra de 'a' a 'h')");
             return -1;
         }
+
+        char c = columna.charAt(0);
+        if (c < 'a' || c > 'h') {
+            if (Character.isLetter(c)) {
+                pantalla.println("La columna " + columna + " está fuera de rango (letra de 'a' a 'h')");
+            } else {
+                pantalla.println("La columna " + columna + " no tiene el formato correcto (letra de 'a' a 'h')");
+            }
+            return -1;
+        }
+
+        return c - 'a';
     }
 
     public static String indiceAFila(int indice) {
